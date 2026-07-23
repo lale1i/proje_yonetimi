@@ -1,2 +1,2 @@
 # proje_yonetimi
-# ıfjşoıgjşoıv hwşohnweouhrgjun
+# deneme 1.5
