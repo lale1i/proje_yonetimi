@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chinese Strings — Preview</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #e8dfd0;
+      }
+
+      #container {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        touch-action: none;
+      }
+
+      #container canvas {
+        display: block;
+        cursor: grab;
+      }
+
+      #container canvas:active {
+        cursor: grabbing;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" class="strings"></div>
+    <script type="module" src="./cloth.js"></script>
+  </body>
+</html>

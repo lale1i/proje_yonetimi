@@ -1,0 +1,67 @@
+Bu klasördeki animasyonu mevcut projeme entegre et.
+
+## Ne bu?
+Canvas üzerinde çalışan etkileşimli bir “boncuk perde / string curtain” animasyonu. Dikey yazılmış Çince karakterler yerçekimi ve fizik ile sallanır; fare/parmak hareketiyle tepki verir ve hafif chime sesi çıkarır.
+
+## Dosyalar
+- `index.html` — minimal örnek sayfa (referans)
+- `cloth.js` — ana animasyon (fizik + çizim + input)
+- `utils.js` — yardımcı fonksiyonlar (`getPointID`, `smoothstep`)
+- `chimes.js` — Web Audio ile sentezlenmiş kapı zili sesleri
+
+## Kurulum
+1. Bu dört dosyayı projedeki uygun bir klasöre kopyala (ör. `public/chimes/` veya `src/assets/chimes/`).
+2. Sayfada şu HTML yapısını kullan:
+
+```html
+<div id="container" class="strings"></div>
+```
+
+3. Stilller (sayfayı / kapsayıcıyı doldurması için):
+
+```css
+#container {
+  position: absolute; /* veya relative, yerleşime göre */
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+}
+#container canvas {
+  display: block;
+  cursor: grab;
+}
+```
+
+4. Script’i ES module olarak yükle (relative path’ler bozulmasın):
+
+```html
+<script type="module" src="./cloth.js"></script>
+```
+
+veya bundle kullanan bir framework’te:
+
+```js
+import "./cloth.js";
+```
+
+Not: `cloth.js` sayfa yüklenince `main()` çalıştırır ve `#container` arar. Framework’te (React/Vue/Svelte) component mount olduktan sonra import et; SSR’da sadece client tarafında yükle.
+
+## Bağımlılıklar
+Harici npm paketi yok. Sadece tarayıcı API’leri: Canvas 2D, `requestAnimationFrame`, Pointer Events, Web Audio API.
+
+## Özelleştirme (cloth.js içindeki CONFIG)
+- `CLOTH` — gösterilecek metin (şu an Çin atasözleri; değiştirilebilir)
+- `gridW` / `gridH` — sütun / satır yoğunluğu
+- `gravity`, `damping`, `mouseSize`, `mouseStrength` — fizik hissi
+- `chimes.enabled` / `chimes.setCountry("china")` — ses
+
+Yazı yönü dikeydir (`charForCell` sağdan sola sütun okur). Yatay yazı veya başka dil için `CLOTH` ve `charForCell` mantığını uyarla.
+
+## Kısıtlar / dikkat
+- ES modules için HTTP üzerinden servis et (file:// ile import çalışmayabilir).
+- `#container` id’si zorunlu; başka id kullanacaksan `cloth.js` içindeki `getElementById("container")` satırını güncelle.
+- Ses, kullanıcı etkileşiminden sonra başlar (tarayıcı autoplay politikası).
+- Karakter fontu: Songti / Noto Serif SC vb. yoksa sistem serif fallback kullanılır; Çin karakterleri için uygun bir font ekle.
+
+## İstenen sonuç
+Animasyonu projenin ilgili sayfa/bölümüne, mevcut tasarımı bozmadan yerleştir. Gerekirse kapsayıcı boyutuna göre ölçekle; menü, çatı görseli veya ekstra UI ekleme — sadece string/cloth animasyonu.
